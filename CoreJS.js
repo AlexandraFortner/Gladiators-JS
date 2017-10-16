@@ -112,8 +112,10 @@ function draw() {
 
 function changeTurn() {
     if (STATE.turn === 1) {
+        $('#Turn').html("It's Gladiator 1's turn!");
         STATE.turn = 2;
     } else {
+        $('#Turn').html("It's Gladiator 2's turn!");
         STATE.turn = 1;
     }
 }
