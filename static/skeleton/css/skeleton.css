@@ -179,15 +179,17 @@
 /* NOTE
 html is set to 62.5% so that all the REM measurements throughout Skeleton
 are based on 10px sizing. So basically 1.5rem = 15px :) */
+
 html {
-    background: url(/static/pictures/ValorBackgroundFE.png) no-repeat center
-        center fixed;
+    background: url(/home/basecamp/Daily_Exercises/October/Gladiator-JS/static/pictures/GladiatorWallpaper.jpg)
+        no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    font-size: 62.5%;
+    font-size: 65.5%;
 }
+
 body {
     font-size: 1.5em; /* currently ems cause chrome bug misinterpreting rems on body element */
     line-height: 1.6;
