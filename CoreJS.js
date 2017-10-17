@@ -60,10 +60,11 @@ function criticalChance(percentage) {
 function attack(attacker, defender) {
     damage = getRandomInt(attacker.DamageLow, attacker.DamageHigh);
     if (attacker.Rage < getRandomInt(0, 100)) {
+        $('#Critical').html('');
         defender.Health -= damage;
         attacker.Rage += 15;
     } else {
-        console.log('crit');
+        $('#Critical').html("<h3>It's a critical hit!</h3>");
         defender.Health -= damage * 2;
         attacker.Rage = 0;
     }
@@ -87,7 +88,7 @@ function heal(gladiator) {
 
 function isDead(gladiator) {
     if (gladiator.Health <= 0) {
-        $('Winner').html("<h2> They're Dead, dawg!</h2>");
+        $('#Winner').html("<h2> They're Dead, dude!</h2>");
     } else {
         return false;
     }
@@ -111,10 +112,10 @@ function draw() {
 
 function changeTurn() {
     if (STATE.turn === 1) {
-        $('#Turn').html("It's Gladiator 1's turn!");
+        $('#Turn').html("It's Gladiator 2's turn!");
         STATE.turn = 2;
     } else {
-        $('#Turn').html("It's Gladiator 2's turn!");
+        $('#Turn').html("It's Gladiator 1's turn!");
         STATE.turn = 1;
     }
 }
