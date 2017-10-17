@@ -5,30 +5,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/home/basecamp/Daily_Exercises/October/Gladiator-JS/static/skeleton/css/normalize.css">
+    <link rel="stylesheet" href="/home/basecamp/Daily_Exercises/October/Gladiator-JS/static/skeleton/css/skeleton.css">
     <title>Document</title>
 </head>
+<style>
+    html {
+        background: url(/home/basecamp/Daily_Exercises/October/Gladiator-JS/static/pictures/GladiatorWallpaper.jpg) no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        font-size: 65.5%;
+    }
+</style>
 
 <body>
-    <center>
-        <br>
-        <br>
-        <br>
-        <h2>Welcome Homies!</h2>
-        <hr>
-        <div id='Details'>
-        </div>
-        <hr>
-        <input type="button" id="attack-button" value="Attack!">
-        <input type="button" id="heal-button" value="Heal!">
-        <div id='Critical'>
-        </div>
-        <div id='Turn'>
-        </div>
-        <div id='Winner'>
-        </div>
-    </center>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src='/home/basecamp/Daily_Exercises/October/Gladiator-JS/CoreJS.js'></script>
+    <div class='container box'>
+        <center>
+            <br>
+            <br>
+            <br>
+            <h2>Welcome Gladiators!</h2>
+            <hr>
+            <div id='Details'>
+            </div>
+            <hr>
+            <button class="btn btn-1 btn-1e" style="vertical-align:middle" id="attack-button">
+                <span>Attack!</span>
+            </button>
+            <button class="btn btn-1 btn-1f" style="vertical-align:middle" id="heal-button">
+                <span>Heal!</span>
+            </button>
+            <hr>
+            <div id='Critical'>
+            </div>
+            <div id='Healed'>
+            </div>
+            <div id='Turn'>
+            </div>
+            <div id='Winner'>
+            </div>
+        </center>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src='/home/basecamp/Daily_Exercises/October/Gladiator-JS/CoreJS.js'></script>
+    </div>
 </body>
 
 </html>
