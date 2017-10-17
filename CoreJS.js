@@ -75,26 +75,31 @@ function attack(attacker, defender) {
 // - Cannot heal above max health of 100
 // """
 function heal(gladiator) {
-    if (gladiator.Health >= 100) {
-        $('#heal-button').attr('disabled', 'disabled');
-    } else if (gladiator.Rage <= 10) {
-        $('#heal-button').attr('disabled', 'disabled');
-    } else {
-        gladiator.Rage -= 10;
-        gladiator.Health += 15;
-        $('#heal-button').attr('disabled', false);
-    }
+    gladiator.Rage -= 10;
+    gladiator.Health = Math.min(100, 15 + gladiator.Health);
 }
 
 function isDead(gladiator) {
     if (gladiator.Health <= 0) {
-        $('#Winner').html("<h2> They're Dead, dude!</h2>");
+        gladiator.Health = 0;
+        $('#Winner').html('<h2>Winner!</h2>');
+        $('#heal-button').attr('disabled', 'disabled');
+        $('#attack-button').attr('disabled', 'disabled');
     } else {
         return false;
     }
 }
 
 function draw() {
+    if (STATE.attacker.Rage <= 10) {
+        $('#heal-button').attr('disabled', 'disabled');
+    } else if (STATE.attacker.Health >= 100) {
+        $('#heal-button').attr('disabled', 'disabled');
+    } else {
+        $('#heal-button').attr('disabled', false);
+    }
+    isDead(STATE.attacker());
+    isDead(STATE.defender());
     $('#Details').html(
         '<p><h3>Gladiator 1: ' +
             STATE.Gladiator1.Health +
@@ -106,8 +111,6 @@ function draw() {
             STATE.Gladiator2.Rage +
             ' Rage</h3><p>'
     );
-    isDead(STATE.attacker());
-    isDead(STATE.defender());
 }
 
 function changeTurn() {
