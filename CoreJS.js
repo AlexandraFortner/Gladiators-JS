@@ -29,7 +29,7 @@ var STATE = {
         }
     },
     defender: function() {
-        if (STATE.turn === 2) {
+        if (STATE.turn === 1) {
             return STATE.Gladiator2;
         } else {
             return STATE.Gladiator1;
@@ -105,7 +105,6 @@ function draw() {
             STATE.Gladiator2.Rage +
             ' Rage</h3><p>'
     );
-    changeTurn();
     isDead(STATE.attacker());
     isDead(STATE.defender());
 }
@@ -123,10 +122,12 @@ function changeTurn() {
 function attatchHandlers() {
     $('#attack-button').click(function() {
         attack(STATE.attacker(), STATE.defender());
+        changeTurn();
         draw();
     });
     $('#heal-button').click(function() {
         heal(STATE.attacker());
+        changeTurn();
         draw();
     });
 }
