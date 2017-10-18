@@ -134,7 +134,7 @@ function magic(attacker, defender) {
                 random_magic_attack +
                 "!<br>It's a critical hit!<br>Damage Dealt: " +
                 damage_dealt +
-                '</h4><hr>'
+                '</h4>'
         );
     }
 }
@@ -146,7 +146,7 @@ function magic(attacker, defender) {
 function heal(gladiator) {
     gladiator.Rage = Math.max(0, 10 - gladiator.Rage);
     gladiator.Health = Math.min(100, 15 + gladiator.Health);
-    $('#Healed').html('<h5>Healed!</h5><hr>');
+    $('#Healed').html('<h5>Healed!</h5>');
 }
 
 function isDead(gladiator) {
@@ -209,18 +209,24 @@ function attatchHandlers() {
     $('#attack-button').click(function() {
         $('Critical').html('');
         $('#Magic').html('');
+        $('#Healed').html('');
         attack(STATE.attacker(), STATE.defender());
         changeTurn();
         draw();
     });
     $('#heal-button').click(function() {
+        $('#Attack').html('');
+        $('#Turn').html('');
+        $('#Critical').html('');
         heal(STATE.attacker());
         changeTurn();
         draw();
     });
     $('#magic-button').click(function() {
-        $('Critical').html('');
         $('#Attack').html('');
+        $('#Turn').html('');
+        $('#Critical').html('');
+        $('#Healed').html('');
         magic(STATE.attacker(), STATE.defender());
         changeTurn();
         draw();
