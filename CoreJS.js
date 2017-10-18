@@ -65,13 +65,19 @@ function criticalChance(percentage) {
 function attack(attacker, defender) {
     damage = getRandomInt(attacker.DamageLow, attacker.DamageHigh);
     if (attacker.Rage < getRandomInt(0, 100)) {
-        $('#Critical').html('');
         defender.Health -= damage;
         attacker.Rage += 15;
+        $('#Attack').html('<h4>Attacked!<br>Damage Dealt: ' + damage + '</h4>');
     } else {
-        $('#Critical').html("<h4>It's a critical hit!</h4><hr>");
-        defender.Health -= damage * 2;
+        damage_dealt = damage * 2;
+        defender.Health -= damage_dealt;
         attacker.Rage = 0;
+        $('#Attack').html('');
+        $('#Critical').html(
+            "<h4>Attacked!<br>It's a critical hit!<br>Damage Dealt: " +
+                damage_dealt +
+                '</h4>'
+        );
     }
 }
 
@@ -108,34 +114,29 @@ function magic(attacker, defender) {
     if (attacker.Rage < getRandomInt(0, 100)) {
         random_magic_attack = choice(Object.keys(magic_dictionary));
         lost = magic_dictionary[random_magic_attack];
-        $('#Magic').html('<h4>Cast ' + random_magic_attack + '!</h4>');
         defender.Health -= lost;
         attacker.Rage -= 10;
+        $('#Magic').html(
+            '<h4>Cast ' +
+                random_magic_attack +
+                '!<br>Damage Dealt: ' +
+                lost +
+                '</h4>'
+        );
     } else {
         random_magic_attack = choice(Object.keys(critical_magic_dictionary));
         lost2 = critical_magic_dictionary[random_magic_attack];
-        $('#Critical').html(
-            '<h4>Cast ' +
-                random_magic_attack +
-                "!<br>It's a critical hit!</h4><hr>"
-        );
+        damage_dealt = lost2 * 2;
         defender.Health -= lost2 * 2;
         attacker.Rage = 0;
+        $('#Magic').html(
+            '<h4>Cast ' +
+                random_magic_attack +
+                "!<br>It's a critical hit!<br>Damage Dealt: " +
+                damage_dealt +
+                '</h4><hr>'
+        );
     }
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    //     random_magic_attack = choice((magic_dictionary))
-    //     v = magic_dictionary[random_magic_attack]
-    //     defender.Health -= v
-    //     attacker.Rage -= 10
-    //     $('#Magic').html('<h4>Cast ' + random_magic_attack + '!</h4>')
-    // else {
-    //     random_magic_attack = random.choice(
-    //         list(critical_magic_dictionary))
-    //     lost = critical_magic_dictionary[random_magic_attack]
-    //     super_lost = lost * 2
-    //     defender.health -= super_lost
-    //     self.rage -= 10
-    //     $('#Magic').html('<h4>Cast ' + random_magic_attack + '!</h4>')
 }
 
 // """
@@ -151,13 +152,15 @@ function heal(gladiator) {
 function isDead(gladiator) {
     if (gladiator.Health <= 0) {
         gladiator.Health = 0;
+        $('#Attack').html('');
         $('#Turn').html('');
         $('#Critical').html('');
         $('#Healed').html('');
         $('#Magic').html('');
-        $('#Winner').html('<h4>Winner!</h4>');
+        $('#Winner').html('<h2>Winner!</h2>');
         $('#heal-button').attr('disabled', 'disabled');
         $('#attack-button').attr('disabled', 'disabled');
+        $('#magic-button').attr('disabled', 'disabled');
     } else {
         return false;
     }
@@ -180,7 +183,7 @@ function draw() {
     isDead(STATE.attacker());
     isDead(STATE.defender());
     $('#Details').html(
-        '<p><h3>Gladiator 1: ' +
+        '<h3>Gladiator 1: ' +
             STATE.Gladiator1.Health +
             ' Health ||| ' +
             STATE.Gladiator1.Rage +
@@ -188,22 +191,24 @@ function draw() {
             STATE.Gladiator2.Health +
             ' Health ||| ' +
             STATE.Gladiator2.Rage +
-            ' Rage</h3><p>'
+            ' Rage</h3>'
     );
 }
 
 function changeTurn() {
     if (STATE.turn === 1) {
-        $('#Turn').html("<h5>It's Gladiator 2's turn!</h5><hr>");
+        $('#Turn').html("<hr><h5>It's Gladiator 2's turn!</h5>");
         STATE.turn = 2;
     } else {
-        $('#Turn').html("<h5>It's Gladiator 1's turn!</h5><hr>");
+        $('#Turn').html("<hr><h5>It's Gladiator 1's turn!</h5>");
         STATE.turn = 1;
     }
 }
 
 function attatchHandlers() {
     $('#attack-button').click(function() {
+        $('Critical').html('');
+        $('#Magic').html('');
         attack(STATE.attacker(), STATE.defender());
         changeTurn();
         draw();
@@ -214,6 +219,8 @@ function attatchHandlers() {
         draw();
     });
     $('#magic-button').click(function() {
+        $('Critical').html('');
+        $('#Attack').html('');
         magic(STATE.attacker(), STATE.defender());
         changeTurn();
         draw();
@@ -221,6 +228,7 @@ function attatchHandlers() {
 }
 
 function main() {
+    $('#Turn').html("<hr><h5>It's Gladiator 1's turn!</h5>");
     draw();
     attatchHandlers();
 }
