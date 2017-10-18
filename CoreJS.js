@@ -5,6 +5,11 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
 }
 
+// SAME AS RANDOM.CHOICE
+function choice(arr) {
+    return arr[getRandomInt(0, arr.length - 1)];
+}
+
 // """
 // Returns the dictionary representing the gladiator with the provided values.
 // """
@@ -70,6 +75,69 @@ function attack(attacker, defender) {
     }
 }
 
+function magic(attacker, defender) {
+    magic_dictionary = {
+        'Kaiju Blue Bath': -15,
+        'Fire Storm': 12,
+        'Wind-Waker': 15,
+        'Ground Pound': 11,
+        'Water Cannon': 14,
+        'Undead Underground': 16,
+        'Ghostly Screams': 10,
+        "Sunshine's Rays": 20,
+        'Bad Luck Bang': 5,
+        'Good Fortune': 20,
+        'Gastly Grimoire': 17,
+        'Blessed Protection': 18
+    };
+    critical_magic_dictionary = {
+        'Kaiju Blue Spa': -30,
+        'Gates Of Hell': 30,
+        'Wasting Winds Of The Waker': 33,
+        'Shifting Pangea Peril': 29,
+        'Hurricane Of Terror': 32,
+        'Paralyzing AkaiEyes': 34,
+        'Shrieking Grave': 28,
+        'Scorching Sunburst': 48,
+        'Unlucky Eulogy': 14,
+        'Luck Of The Chinese New Year': 49,
+        'Murderous Matoia': 35,
+        'Holy Shield Bash': 36
+    };
+    // damage = getRandomInt(attacker.DamageLow, attacker.DamageHigh);
+    if (attacker.Rage < getRandomInt(0, 100)) {
+        random_magic_attack = choice(Object.keys(magic_dictionary));
+        lost = magic_dictionary[random_magic_attack];
+        $('#Magic').html('<h4>Cast ' + random_magic_attack + '!</h4>');
+        defender.Health -= lost;
+        attacker.Rage -= 10;
+    } else {
+        random_magic_attack = choice(Object.keys(critical_magic_dictionary));
+        lost2 = critical_magic_dictionary[random_magic_attack];
+        $('#Critical').html(
+            '<h4>Cast ' +
+                random_magic_attack +
+                "!<br>It's a critical hit!</h4><hr>"
+        );
+        defender.Health -= lost2 * 2;
+        attacker.Rage = 0;
+    }
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //     random_magic_attack = choice((magic_dictionary))
+    //     v = magic_dictionary[random_magic_attack]
+    //     defender.Health -= v
+    //     attacker.Rage -= 10
+    //     $('#Magic').html('<h4>Cast ' + random_magic_attack + '!</h4>')
+    // else {
+    //     random_magic_attack = random.choice(
+    //         list(critical_magic_dictionary))
+    //     lost = critical_magic_dictionary[random_magic_attack]
+    //     super_lost = lost * 2
+    //     defender.health -= super_lost
+    //     self.rage -= 10
+    //     $('#Magic').html('<h4>Cast ' + random_magic_attack + '!</h4>')
+}
+
 // """
 // - Spends 10 rage to heal 15 health
 // - Cannot heal above max health of 100
@@ -86,6 +154,7 @@ function isDead(gladiator) {
         $('#Turn').html('');
         $('#Critical').html('');
         $('#Healed').html('');
+        $('#Magic').html('');
         $('#Winner').html('<h4>Winner!</h4>');
         $('#heal-button').attr('disabled', 'disabled');
         $('#attack-button').attr('disabled', 'disabled');
@@ -102,6 +171,12 @@ function draw() {
     } else {
         $('#heal-button').attr('disabled', false);
     }
+    if (STATE.attacker().Rage < 10) {
+        $('#magic-button').attr('disabled', 'disabled');
+    } else {
+        $('#magic-button').attr('disabled', false);
+    }
+
     isDead(STATE.attacker());
     isDead(STATE.defender());
     $('#Details').html(
@@ -135,6 +210,11 @@ function attatchHandlers() {
     });
     $('#heal-button').click(function() {
         heal(STATE.attacker());
+        changeTurn();
+        draw();
+    });
+    $('#magic-button').click(function() {
+        magic(STATE.attacker(), STATE.defender());
         changeTurn();
         draw();
     });

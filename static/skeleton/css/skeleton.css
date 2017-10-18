@@ -437,7 +437,7 @@ input[type="button"] {*/
     height: 0;
     top: 50%;
     left: 50%;
-    background: #cd2bff;
+    background: #ff97d9;
     opacity: 0;
     -webkit-transform: translateX(-50%) translateY(-50%) rotate(45deg);
     -moz-transform: translateX(-50%) translateY(-50%) rotate(45deg);
