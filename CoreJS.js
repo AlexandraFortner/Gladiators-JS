@@ -147,7 +147,7 @@ function magic(attacker, defender) {
 function heal(gladiator) {
     gladiator.Rage = Math.max(0, 10 - gladiator.Rage);
     gladiator.Health = Math.min(100, 15 + gladiator.Health);
-    $('#Healed').html('<h5>Healed!</h5>');
+    $('#Healed').html('<h5>Healed 15 Points!</h5>');
 }
 
 function isDead(gladiator) {
