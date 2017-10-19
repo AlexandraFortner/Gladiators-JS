@@ -67,6 +67,7 @@ function attack(attacker, defender) {
     if (attacker.Rage < getRandomInt(0, 100)) {
         defender.Health -= damage;
         attacker.Rage += 15;
+        $('#Critical').html('');
         $('#Attack').html('<h4>Attacked!<br>Damage Dealt: ' + damage + '</h4>');
     } else {
         damage_dealt = damage * 2;
