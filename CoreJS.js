@@ -141,9 +141,29 @@ function magic(attacker, defender) {
     }
 }
 
-// - Spends 5 rage for a 50% chance for dodging damage for next turn
-function shield(gladiator) {}
-
+function InventoryHarm(attacker, defender) {
+    random_bag_harm = {
+        'a Banana Cream Pie': 5,
+        'a tangle of Bolas': 40,
+        'a vial of Viper Poison': 55,
+        'a Joker Bomb': 43,
+        'a Torque Candle': 47,
+        'a Half-Hacker': 50
+    };
+    var harming_item = choice(Object.keys(random_bag_harm));
+    var harming_power = random_bag_harm[harming_item];
+    defender.Health = Math.min(100, defender.Health);
+    defender.Health -= harming_power;
+    attacker.Rage = Math.max(0, attacker.Rage);
+    attacker.Rage -= 20;
+    $('#InventoryHarm').html(
+        '<h4>You look into your inventory to find ' +
+            harming_item +
+            '! Damage Dealt: ' +
+            harming_power +
+            '!</h4>'
+    );
+}
 // """
 // - Spends 10 rage to heal 15 health
 // - Cannot heal above max health of 100
@@ -162,10 +182,14 @@ function isDead(gladiator) {
         $('#Critical').html('');
         $('#Healed').html('');
         $('#Magic').html('');
+        $('#InventoryHarm').html('');
+        $('#Pass').html('');
         $('#Winner').html('<h2>Winner!</h2>');
         $('#heal-button').attr('disabled', 'disabled');
         $('#attack-button').attr('disabled', 'disabled');
         $('#magic-button').attr('disabled', 'disabled');
+        $('#inventoryharm-button').attr('disabled', 'disabled');
+        $('#Pass-button').attr('disabled', 'disabled');
     } else {
         return false;
     }
@@ -184,12 +208,11 @@ function draw() {
     } else {
         $('#magic-button').attr('disabled', false);
     }
-    if (STATE.attacker().Rage < 5) {
-        $('#shield-button').attr('disabled', 'disabled');
+    if (STATE.attacker().Rage < 20) {
+        $('#inventoryharm-button').attr('disabled', 'disabled');
     } else {
-        $('#shield-button').attr('disabled', false);
+        $('#inventoryharm-button').attr('disabled', false);
     }
-
     isDead(STATE.attacker());
     isDead(STATE.defender());
     $('#Details').html(
@@ -220,7 +243,7 @@ function attatchHandlers() {
         $('Critical').html('');
         $('#Magic').html('');
         $('#Healed').html('');
-        $('#Shield').html('');
+        $('#InventoryHarm').html('');
         $('#Pass').html('');
         attack(STATE.attacker(), STATE.defender());
         changeTurn();
@@ -230,7 +253,7 @@ function attatchHandlers() {
         $('#Attack').html('');
         $('#Turn').html('');
         $('#Critical').html('');
-        $('#Shield').html('');
+        $('#InventoryHarm').html('');
         $('#Pass').html('');
         heal(STATE.attacker());
         changeTurn();
@@ -241,20 +264,19 @@ function attatchHandlers() {
         $('#Turn').html('');
         $('#Critical').html('');
         $('#Healed').html('');
-        $('#Shield').html('');
+        $('#InventoryHarm').html('');
         $('#Pass').html('');
         magic(STATE.attacker(), STATE.defender());
         changeTurn();
         draw();
     });
-    $('#shield-button').click(function() {
+    $('#inventoryharm-button').click(function() {
         $('#Attack').html('');
         $('#Turn').html('');
         $('#Critical').html('');
         $('#Healed').html('');
         $('#Pass').html('');
-        counter = counter + 1;
-        shield(STATE.attacker());
+        InventoryHarm(STATE.attacker(), STATE.defender());
         changeTurn();
         draw();
     });
@@ -263,7 +285,7 @@ function attatchHandlers() {
         $('#Turn').html('');
         $('#Critical').html('');
         $('#Healed').html('');
-        $('#Shield').html('');
+        $('#InventoryHarm').html('');
         changeTurn();
         draw();
     });
