@@ -10,6 +10,7 @@ function choice(arr) {
     return arr[getRandomInt(0, arr.length - 1)];
 }
 
+var counter = 0;
 // """
 // Returns the dictionary representing the gladiator with the provided values.
 // """
@@ -140,6 +141,9 @@ function magic(attacker, defender) {
     }
 }
 
+// - Spends 5 rage for a 50% chance for dodging damage for next turn
+function shield(gladiator) {}
+
 // """
 // - Spends 10 rage to heal 15 health
 // - Cannot heal above max health of 100
@@ -180,6 +184,11 @@ function draw() {
     } else {
         $('#magic-button').attr('disabled', false);
     }
+    if (STATE.attacker().Rage < 5) {
+        $('#shield-button').attr('disabled', 'disabled');
+    } else {
+        $('#shield-button').attr('disabled', false);
+    }
 
     isDead(STATE.attacker());
     isDead(STATE.defender());
@@ -211,6 +220,8 @@ function attatchHandlers() {
         $('Critical').html('');
         $('#Magic').html('');
         $('#Healed').html('');
+        $('#Shield').html('');
+        $('#Pass').html('');
         attack(STATE.attacker(), STATE.defender());
         changeTurn();
         draw();
@@ -219,6 +230,8 @@ function attatchHandlers() {
         $('#Attack').html('');
         $('#Turn').html('');
         $('#Critical').html('');
+        $('#Shield').html('');
+        $('#Pass').html('');
         heal(STATE.attacker());
         changeTurn();
         draw();
@@ -228,7 +241,29 @@ function attatchHandlers() {
         $('#Turn').html('');
         $('#Critical').html('');
         $('#Healed').html('');
+        $('#Shield').html('');
+        $('#Pass').html('');
         magic(STATE.attacker(), STATE.defender());
+        changeTurn();
+        draw();
+    });
+    $('#shield-button').click(function() {
+        $('#Attack').html('');
+        $('#Turn').html('');
+        $('#Critical').html('');
+        $('#Healed').html('');
+        $('#Pass').html('');
+        counter = counter + 1;
+        shield(STATE.attacker());
+        changeTurn();
+        draw();
+    });
+    $('#pass-button').click(function() {
+        $('#Attack').html('');
+        $('#Turn').html('');
+        $('#Critical').html('');
+        $('#Healed').html('');
+        $('#Shield').html('');
         changeTurn();
         draw();
     });
